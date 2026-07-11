@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>POS System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">POS<span>.</span></div>
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="sale">Sale</button>
+    <button class="tab-btn" data-tab="inventory">Inventory</button>
+    <button class="tab-btn" data-tab="history">Sales History</button>
+    <button class="tab-btn" data-tab="lowstock">Low Stock</button>
+  </nav>
+  <div class="clock" id="clock"></div>
+</header>
+
+<!-- ===================== SALE TAB ===================== -->
+<section class="tab-panel active" id="tab-sale">
+  <div class="sale-grid">
+
+    <div class="scan-column">
+      <div class="scan-box">
+        <label for="scanInput">Scan or enter IMEI / SKU</label>
+        <input id="scanInput" type="text" autocomplete="off" placeholder="Scan barcode / IMEI here..." autofocus>
+        <div id="scanMessage" class="scan-message"></div>
+      </div>
+
+      <div class="search-box">
+        <label for="searchInput">Search by product name</label>
+        <input id="searchInput" type="text" autocomplete="off" placeholder="Type to search...">
+        <div id="searchResults" class="search-results"></div>
+      </div>
+    </div>
+
+    <div class="cart-column">
+      <h2>Cart</h2>
+      <table class="cart-table">
+        <thead>
+          <tr><th>Item</th><th>Detail</th><th>Qty</th><th>Price</th><th>Subtotal</th><th></th></tr>
+        </thead>
+        <tbody id="cartBody"></tbody>
+      </table>
+
+      <div class="cart-footer">
+        <div class="payment-method">
+          <label for="paymentMethod">Payment method</label>
+          <select id="paymentMethod">
+            <option value="cash">Cash</option>
+            <option value="mpesa">M-Pesa</option>
+            <option value="card">Card</option>
+          </select>
+        </div>
+        <div class="total-line">
+          <span>Total</span>
+          <span id="cartTotal">Ksh 0.00</span>
+        </div>
+        <button id="checkoutBtn" class="primary-btn">Checkout</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== INVENTORY TAB ===================== -->
+<section class="tab-panel" id="tab-inventory">
+  <div class="inventory-grid">
+
+    <div class="panel">
+      <h2>Add Product</h2>
+      <form id="addProductForm" class="form-grid">
+        <label>SKU <input name="sku" required></label>
+        <label>Name <input name="name" required></label>
+        <label>Category <input name="category"></label>
+        <label>Price <input name="price" type="number" step="0.01" required></label>
+        <label>Cost <input name="cost" type="number" step="0.01"></label>
+        <label>Track by
+          <select name="track_by">
+            <option value="qty">Quantity</option>
+            <option value="imei">IMEI (serialized)</option>
+          </select>
+        </label>
+        <label id="qtyFieldWrap">Initial qty <input name="qty" type="number" value="0"></label>
+        <label>Reorder level <input name="reorder_level" type="number" value="5"></label>
+        <button type="submit" class="primary-btn">Add Product</button>
+      </form>
+      <div id="addProductMsg" class="msg"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Add Stock</h2>
+      <form id="addStockForm" class="form-grid">
+        <label>Product
+          <select id="stockProductSelect" name="product_id" required></select>
+        </label>
+        <div id="qtyRestockWrap">
+          <label>Quantity to add <input name="amount" type="number" value="0"></label>
+        </div>
+        <div id="imeiRestockWrap" style="display:none">
+          <label>IMEIs (one per line)
+            <textarea name="imei_text" rows="6" placeholder="356789101234567&#10;356789101234568"></textarea>
+          </label>
+        </div>
+        <button type="submit" class="primary-btn">Add Stock</button>
+      </form>
+      <div id="addStockMsg" class="msg"></div>
+    </div>
+
+    <div class="panel wide">
+      <h2>Current Inventory</h2>
+      <table class="data-table" id="inventoryTable">
+        <thead>
+          <tr><th>SKU</th><th>Name</th><th>Category</th><th>Price</th><th>Tracking</th><th>Stock</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== HISTORY TAB ===================== -->
+<section class="tab-panel" id="tab-history">
+  <div class="panel wide">
+    <h2>Recent Sales</h2>
+    <table class="data-table" id="historyTable">
+      <thead>
+        <tr><th>#</th><th>Time</th><th>Items</th><th>Payment</th><th>Total</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===================== LOW STOCK TAB ===================== -->
+<section class="tab-panel" id="tab-lowstock">
+  <div class="panel wide">
+    <h2>Low Stock Alerts</h2>
+    <table class="data-table" id="lowStockTable">
+      <thead>
+        <tr><th>SKU</th><th>Name</th><th>Type</th><th>Remaining</th><th>Reorder Level</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
